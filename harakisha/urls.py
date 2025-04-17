@@ -21,6 +21,6 @@ from . import views
 
 
 urlpatterns = [
-    path("/status/", views.StatusList.as_view(), name="status_list"),
-    path("/status/<uuid:pk>/", views.StatusDetail.as_view(), name="status_detail"),
+    path("status/", views.StatusList.as_view(), name="status_list"),
+    path("status/<uuid:pk>/", views.StatusDetail.as_view(), name="status_detail"),
 ]
