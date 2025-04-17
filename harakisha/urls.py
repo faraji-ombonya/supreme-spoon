@@ -21,6 +21,14 @@ from . import views
 
 
 urlpatterns = [
-    path("status/", views.StatusList.as_view(), name="status_list"),
-    path("status/<uuid:pk>/", views.StatusDetail.as_view(), name="status_detail"),
+    path(
+        "cylinder-statuses/",
+        views.CylinderStatusList.as_view(),
+        name="cylinder_status_list",
+    ),
+    path(
+        "cylinder-statuses/<uuid:pk>/",
+        views.CylinderStatusDetail.as_view(),
+        name="cylinder_status_detail",
+    ),
 ]
