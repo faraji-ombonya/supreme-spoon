@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,3 +142,8 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# LINKTRA
+LINKTRA_BASE_URL = os.getenv("LINKTRA_BASE_URL")
+LINKTRA_CLIENT_ID = os.getenv("LINKTRA_CLIENT_ID")
+LINKTRA_CLIENT_SECRET = os.getenv("LINKTRA_CLIENT_SECRET")

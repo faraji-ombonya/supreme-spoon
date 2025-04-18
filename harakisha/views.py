@@ -6,7 +6,11 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import CylinderStatus
-from .serializers import CylinderStatusSerializer, CreateCylinderStatusSerializer
+from .serializers import (
+    CylinderStatusSerializer,
+    CreateCylinderStatusSerializer,
+    AllocateCylinderSerializer,
+)
 from utils.open_api import get_paginated_response_schema, page, per_page
 from utils.pagination import paginate
 
@@ -40,6 +44,11 @@ class CylinderStatusList(APIView):
         serializer = CreateCylinderStatusSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        # TODO: Update the gas level on the customer's profile
+        # TODO: If gas level is less than 10% send them an sms notification
+        # TODO: SMS has a URL that allows the user to place an order ()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -63,3 +72,34 @@ class CylinderStatusDetail(APIView):
         cylinder_status = get_object_or_404(CylinderStatus, pk=pk)
         cylinder_status.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# TODO:
+# an endpoint that receives a QR code and customer details.
+# Then use the QR code to query for the cylinder details
+# Update customer profile
+
+
+class AllocateCylinderView(APIView):
+    serializer_class = AllocateCylinderSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        # Query for the cylinder details using the QR code
+        # Update customer profile
+        # Allocate the cylinder to the customer
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# cylinder = Cylinder.objects.get(qr_code=qr_code)
+
+# customer = Customer.objects.create(**customer_details)
+
+# cylinder.customer = customer
+# cylinder.save()
+
+# return Response({"message": "Cylinder allocated successfully."})
