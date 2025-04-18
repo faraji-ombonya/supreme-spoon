@@ -31,4 +31,9 @@ urlpatterns = [
         views.CylinderStatusDetail.as_view(),
         name="cylinder_status_detail",
     ),
+    path(
+        "allocate-cylinder/",
+        views.AllocateCylinderView.as_view(),
+        name="allocate_cylinder",
+    ),
 ]

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import CylinderStatus, Customer, Cylinder
+from .services import allocate_cylinder
 
 
 class CylinderStatusSerializer(serializers.ModelSerializer):
@@ -31,7 +32,8 @@ class CreateCylinderStatusSerializer(serializers.ModelSerializer):
 
 
 class AllocateCylinderSerializer(serializers.ModelSerializer):
-    qr_code = serializers.CharField()
+    old_qr_code = serializers.CharField()
+    new_qr_code = serializers.CharField()
 
     class Meta:
         model = Customer
@@ -42,9 +44,11 @@ class AllocateCylinderSerializer(serializers.ModelSerializer):
         phone_number = validated_data.pop("phone_number")
 
         # get or create user using phone number
-        customer, created = Customer.objects.get_or_create(
+        customer, _ = Customer.objects.get_or_create(
             phone_number=phone_number,
             defaults=validated_data,
         )
+
+        allocate_cylinder(qr_code=qr_code, customer_id=customer.id)
 
         return customer

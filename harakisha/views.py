@@ -74,12 +74,7 @@ class CylinderStatusDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# TODO:
-# an endpoint that receives a QR code and customer details.
-# Then use the QR code to query for the cylinder details
-# Update customer profile
-
-
+@extend_schema(tags=["Allocate Cylinder"])
 class AllocateCylinderView(APIView):
     serializer_class = AllocateCylinderSerializer
 
@@ -87,19 +82,4 @@ class AllocateCylinderView(APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        # Query for the cylinder details using the QR code
-        # Update customer profile
-        # Allocate the cylinder to the customer
-
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-# cylinder = Cylinder.objects.get(qr_code=qr_code)
-
-# customer = Customer.objects.create(**customer_details)
-
-# cylinder.customer = customer
-# cylinder.save()
-
-# return Response({"message": "Cylinder allocated successfully."})
