@@ -5,12 +5,13 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .models import CylinderStatus
+from .models import CylinderStatus, Cylinder
 from .serializers import (
     CylinderStatusSerializer,
     CreateCylinderStatusSerializer,
     AllocateCylinderSerializer,
 )
+from .services import notify_customer
 from utils.open_api import get_paginated_response_schema, page, per_page
 from utils.pagination import paginate
 
@@ -43,11 +44,33 @@ class CylinderStatusList(APIView):
     def post(self, request):
         serializer = CreateCylinderStatusSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        cylinder_status = serializer.save()
 
         # TODO: Update the gas level on the customer's profile
-        # TODO: If gas level is less than 10% send them an sms notification
-        # TODO: SMS has a URL that allows the user to place an order ()
+        bluetooth_id = cylinder_status.bluetooth_id
+        serial_number = cylinder_status.serial_number
+
+        try:
+            cylinder = Cylinder.objects.get(
+                bluetooth_id=bluetooth_id, serial_number=serial_number
+            )
+            cylinder.level_in_percent = cylinder_status.level_in_percent
+
+            # If gas level is less than 10% send them an sms notification
+            level = cylinder_status.level_in_percent
+            if level < 6:
+                notify_customer(
+                    customer_id=cylinder.customer.id, message="Place a new order."
+                )
+
+            if 6 <= level <= 10:
+                notify_customer(
+                    customer_id=cylinder.customer.id, message="Your gas is running low"
+                )
+
+            cylinder.save()
+        except Cylinder.DoesNotExist:
+            pass
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
