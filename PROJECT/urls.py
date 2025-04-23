@@ -22,6 +22,7 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from oauth2_provider import urls as oauth2_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,4 +38,5 @@ urlpatterns = [
         name="redoc",
     ),
     path("api/v1/", include("harakisha.urls")),
+    path("api/auth/", include(oauth2_urls)),
 ]

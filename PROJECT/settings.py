@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "harakisha",
     "drf_spectacular",
+    "users",
+    "oauth2_provider",
 ]
 
 MIDDLEWARE = [
@@ -133,7 +135,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+    ),
 }
+
+
+AUTH_USER_MODEL = "users.User"
+
+
+LOGIN_URL = "/admin/login/"
 
 
 SPECTACULAR_SETTINGS = {

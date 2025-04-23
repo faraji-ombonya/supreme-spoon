@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework import status
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 from .models import CylinderStatus, Cylinder
 from .serializers import (
@@ -30,6 +31,7 @@ from utils.pagination import paginate
     post=extend_schema(request=CreateCylinderStatusSerializer),
 )
 class CylinderStatusList(APIView):
+    permission_classes = [TokenHasReadWriteScope]
     serializer_class = CylinderStatusSerializer
 
     def get(self, request: Request):
