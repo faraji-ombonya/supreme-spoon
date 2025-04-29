@@ -18,7 +18,7 @@ def get_or_create_cylinder(qr_code: str) -> Cylinder:
         return None
 
     serial_number = cylinder_info.get("serialNumber")
-    bluetooth_id = cylinder_info.get("bluetoothId")
+    bluetooth_id = cylinder_info.get("blueToothId")
 
     cylinder, _ = Cylinder.objects.get_or_create(
         serial_number=serial_number,
@@ -27,14 +27,14 @@ def get_or_create_cylinder(qr_code: str) -> Cylinder:
             "cylinder_type": cylinder_info.get("typeOfGas"),
             "size": cylinder_info.get("sizeInLiters"),
             "qr_code": qr_code,
-            "production_date": cylinder_info.get("productionDate"),
+            # "production_date": cylinder_info.get("productionDate"),
         },
     )
 
     return cylinder
 
 
-def allocate_cylinder(old_qr_code: str, new_qr_code: str, customer_id: str):
+def allocate_cylinder(old_qr_code: str | None, new_qr_code: str, customer_id: str):
     """Allocate a cylinder to a customer.
 
     Args:
@@ -42,8 +42,8 @@ def allocate_cylinder(old_qr_code: str, new_qr_code: str, customer_id: str):
         customer_id(str): The ID of the customer
     """
 
+    # Handle new cylinder
     new_cylinder = get_or_create_cylinder(new_qr_code)
-    old_cylinder = get_or_create_cylinder(old_qr_code)
 
     try:
         customer = Customer.objects.get(id=customer_id)
@@ -51,7 +51,11 @@ def allocate_cylinder(old_qr_code: str, new_qr_code: str, customer_id: str):
         return None
 
     new_cylinder.customer = customer
-    old_cylinder.customer = None
+
+    # Handle old cylinder if we have an old QR code
+    if old_qr_code:
+        old_cylinder = get_or_create_cylinder(old_qr_code)
+        old_cylinder.customer = None
 
     return True
 

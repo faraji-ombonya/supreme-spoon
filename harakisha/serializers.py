@@ -32,15 +32,16 @@ class CreateCylinderStatusSerializer(serializers.ModelSerializer):
 
 
 class AllocateCylinderSerializer(serializers.ModelSerializer):
-    old_qr_code = serializers.CharField()
-    new_qr_code = serializers.CharField()
+    old_qr_code = serializers.CharField(required=False, write_only=True)
+    new_qr_code = serializers.CharField(write_only=True)
 
     class Meta:
         model = Customer
         fields = "__all__"
 
-    def create(self, validated_data):
-        qr_code = validated_data.pop("qr_code")
+    def create(self, validated_data: dict):
+        new_qr_code = validated_data.pop("new_qr_code")
+        old_qr_code = validated_data.pop("old_qr_code", None)
         phone_number = validated_data.pop("phone_number")
 
         # get or create user using phone number
@@ -49,6 +50,8 @@ class AllocateCylinderSerializer(serializers.ModelSerializer):
             defaults=validated_data,
         )
 
-        allocate_cylinder(qr_code=qr_code, customer_id=customer.id)
+        allocate_cylinder(
+            old_qr_code=old_qr_code, new_qr_code=new_qr_code, customer_id=customer.id
+        )
 
         return customer
