@@ -114,7 +114,7 @@ Authorization: Bearer PaZDOD5UwzbGOFsQr34LQ7JUYOj3yK
 
 | Step            | Description                                        |
 |-----------------|----------------------------------------------------|
-| Register App    | `/o/applications/register/`                        |
+| Register App    | `/auth/applications/register/`                        |
 | Token Endpoint  | `http://127.0.0.1:8000/auth/token/`                |
 | Grant Type      | `client_credentials`                               |
 | Token Type      | `Bearer`                                           |
