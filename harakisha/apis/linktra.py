@@ -1,5 +1,3 @@
-import base64
-
 import requests
 from django.conf import settings
 
@@ -20,10 +18,10 @@ def get_cylinder_info(qr_code: str) -> CylinderInfo | None:
 
     url = f"{BASE_URL}/cylinder/qr-code/{qr_code}"
 
-    encoded_basic = base64.b64encode(
-        f"{CLIENT_ID}:{CLIENT_SECRET}".encode("utf-8")
-    ).decode("utf-8")
-    headers = {"Authorization": f"Basic {encoded_basic}"}
+    headers = {
+        "X-Linktra-ClientId": CLIENT_ID,
+        "X-Linktra-ClientSecret": CLIENT_SECRET,
+    }
 
     try:
         response = requests.get(url, headers=headers)
