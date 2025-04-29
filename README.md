@@ -121,13 +121,3 @@ Authorization: Bearer PaZDOD5UwzbGOFsQr34LQ7JUYOj3yK
 
 ---
 
-## 👷 Use Cases
-
-This authentication method is useful for:
-
-- Backend services
-- CRON jobs
-- IoT devices
-- Server-to-server communication
-
----
