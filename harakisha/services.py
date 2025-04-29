@@ -51,11 +51,13 @@ def allocate_cylinder(old_qr_code: str | None, new_qr_code: str, customer_id: st
         return None
 
     new_cylinder.customer = customer
+    new_cylinder.save()
 
     # Handle old cylinder if we have an old QR code
     if old_qr_code:
         old_cylinder = get_or_create_cylinder(old_qr_code)
         old_cylinder.customer = None
+        old_cylinder.save()
 
     return True
 
