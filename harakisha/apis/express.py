@@ -35,16 +35,16 @@ def send_sms(phone: str, message: str) -> None:
         return
 
 
-url = "https://www.expresssms.co.ke/api/sms/send"
+# url = "https://www.expresssms.co.ke/api/sms/send"
 
-payload = {
-    "api_key": "xxxxxxxxxxxxxxx",
-    "message": "Sample Test Message",
-    "phone": "07xxxxxxxxx",
-}
-files = []
-headers = {}
+# payload = {
+#     "api_key": "xxxxxxxxxxxxxxx",
+#     "message": "Sample Test Message",
+#     "phone": "07xxxxxxxxx",
+# }
+# files = []
+# headers = {}
 
-response = requests.request("POST", url, headers=headers, data=payload, files=files)
+# response = requests.request("POST", url, headers=headers, data=payload, files=files)
 
-print(response.text)
+# print(response.text)

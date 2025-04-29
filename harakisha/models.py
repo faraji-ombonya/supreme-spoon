@@ -29,14 +29,18 @@ class Customer(models.Model):
 class Cylinder(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     serial_number = models.CharField(max_length=100)
-    level_in_percent = models.IntegerField()
+    level_in_percent = models.IntegerField(null=True, blank=True)
     bluetooth_id = models.CharField(max_length=100)
     customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name="cylinders"
+        Customer,
+        on_delete=models.CASCADE,
+        related_name="cylinders",
+        null=True,
+        blank=True,
     )
     cylinder_type = models.CharField(max_length=100)
     size = models.CharField(max_length=100)
     qr_code = models.CharField(max_length=100)
-    production_date = models.DateField()
+    production_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
