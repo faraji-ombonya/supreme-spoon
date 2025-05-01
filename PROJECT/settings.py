@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "harakisha",
     "drf_spectacular",
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -138,6 +140,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -165,6 +169,9 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
 }
 
+# CORS
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", []).split(",")
+
 # LINKTRA
 LINKTRA_BASE_URL = os.getenv("LINKTRA_BASE_URL")
 LINKTRA_CLIENT_ID = os.getenv("LINKTRA_CLIENT_ID")
@@ -173,3 +180,9 @@ LINKTRA_CLIENT_SECRET = os.getenv("LINKTRA_CLIENT_SECRET")
 # EXPRESS
 EXPRESS_BASE_URL = os.getenv("EXPRESS_BASE_URL")
 EXPRESS_API_KEY = os.getenv("EXPRESS_API_KEY")
+
+
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
+
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
