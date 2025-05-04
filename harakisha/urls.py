@@ -36,4 +36,8 @@ urlpatterns = [
         views.AllocateCylinderView.as_view(),
         name="allocate_cylinder",
     ),
+    path("customers/", views.CustomerList.as_view(), name="customer_list"),
+    path(
+        "customers/<uuid:pk>/", views.CustomerDetail.as_view(), name="customer_detail"
+    ),
 ]
