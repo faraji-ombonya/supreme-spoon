@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-^&&5lhedns3wiw4#et@$b@prh$gt3kx&vb=a($)r*nq+j&kmq!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = []
 
@@ -180,7 +180,6 @@ LINKTRA_CLIENT_SECRET = os.getenv("LINKTRA_CLIENT_SECRET")
 # EXPRESS
 EXPRESS_BASE_URL = os.getenv("EXPRESS_BASE_URL")
 EXPRESS_API_KEY = os.getenv("EXPRESS_API_KEY")
-
 
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
