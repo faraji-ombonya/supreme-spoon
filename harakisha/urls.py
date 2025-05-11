@@ -40,4 +40,6 @@ urlpatterns = [
     path(
         "customers/<uuid:pk>/", views.CustomerDetail.as_view(), name="customer_detail"
     ),
+    path("orders/", views.OrderList.as_view(), name="order_list"),
+    path("orders/<uuid:pk>/", views.OrderDetail.as_view(), name="order_detail"),
 ]

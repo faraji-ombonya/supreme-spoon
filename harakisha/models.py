@@ -44,3 +44,20 @@ class Cylinder(models.Model):
     production_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    wix_transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    payment_status = models.CharField(max_length=100, null=True, blank=True)
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        related_name="orders",
+        null=True,
+        blank=True,
+    )
+    product_type = models.CharField(max_length=100, null=True, blank=True)
+    purchase_date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
